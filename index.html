@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HH Goa 2026 · Builder ID Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="main.png">
+    <link rel="preload" as="image" href="logo.png">
+    <link rel="preload" as="image" href="sun.png">
+    <link rel="preload" as="image" href="hackers.png">
+    <link rel="preload" as="image" href="Screen.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,700;10..100,900&family=Victor+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --green: #0b6839;
+            --yellow: #fee101;
+            --pink: #ff0080;
+            --cream: #fffbe8;
+            --gold: #edd723;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: #1b4d1b url('sun.png') center center / cover no-repeat;
+            z-index: -1;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            font-family: 'Victor Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        /* ── FORM SCREEN ── */
+        #form-screen {
+            width: 100%;
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            min-height: 100dvh;
+        }
+
+        #scene {
+            position: relative;
+            width: 100%;
+            max-width: min(500px, 100vw - 32px);
+            line-height: 0;
+            outline: 3px solid rgba(0, 0, 0, 0.9);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        #scene-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .logo-overlay {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 4.9%;
+            width: 46%;
+            max-width: 46%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .logo-overlay img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .tile-card {
+            position: absolute;
+            width: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #c0392b;
+            border: 2px solid #2c1810;
+            border-radius: 10px;
+            padding: 5px 8px 6px;
+            z-index: 20;
+        }
+
+        .tile-card--stack {
+            top: 19.8%;
+        }
+
+        .tile-card--name {
+            top: 29%;
+        }
+
+        .tile-label {
+            display: block;
+            color: #FFF8E7;
+            font-family: 'Victor Mono', monospace;
+            font-size: 7px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+
+        .scene-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #FFF8E7;
+            color: #FFF8E7;
+            font-family: 'Victor Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 0 3px;
+            outline: none;
+            box-shadow: none;
+            border-radius: 0;
+            -webkit-appearance: none;
+            text-align: left;
+            letter-spacing: 0.3px;
+        }
+
+        .scene-input:focus {
+            border-bottom-color: #FFF8E7;
+        }
+
+        .scene-input::placeholder {
+            color: rgba(255, 248, 231, 0.5);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .laptop-overlay {
+            position: absolute;
+            left: 27.9%;
+            top: 57.6%;
+            width: 44.3%;
+            height: 25.9%;
+            z-index: 10;
+            background: transparent;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .laptop-screen-default {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            z-index: 1;
+        }
+
+        .laptop-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: none;
+            z-index: 2;
+        }
+
+        .laptop-photo.visible {
+            display: block !important;
+            z-index: 5 !important;
+        }
+
+        input[type="file"] {
+            display: none
+        }
+
+        .door-btn {
+            position: absolute;
+            left: 41.5%;
+            top: 36%;
+            width: 16.5%;
+            height: 18.5%;
+            z-index: 15;
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            background: transparent;
+            border: none;
+            outline: none;
+            animation: doorGlow 1.6s ease-in-out infinite;
+        }
+
+        @keyframes doorGlow {
+
+            0%,
+            100% {
+                box-shadow: inset 0 0 0px rgba(11, 104, 57, 0);
+                background: rgba(11, 104, 57, 0)
+            }
+
+            50% {
+                box-shadow: inset 0 0 20px rgba(11, 180, 80, 0.6);
+                background: rgba(11, 150, 65, 0.3)
+            }
+        }
+
+        .table-text {
+            position: absolute;
+            bottom: 9%;
+            left: 2%;
+            background: #2d5a27;
+            border: 2px solid #1a3a15;
+            border-radius: 14px;
+            padding: 5px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 900;
+            color: #FF2D7A;
+            text-align: left;
+            letter-spacing: 0.08em;
+            line-height: 1.4;
+            pointer-events: none;
+            white-space: normal;
+            width: 90px;
+            z-index: 10;
+        }
+
+        /* ── CARD SCREEN ── */
+        #card-screen {
+            background: transparent;
+            min-height: 100dvh;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 8px);
+        }
+
+        #card-screen.visible {
+            display: flex;
+        }
+
+
+        .back-bar {
+            padding: 10px 0 0;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: rgba(254, 225, 1, 0.45);
+            font-family: 'Victor Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 8px 0;
+            display: block;
+            width: 100%;
+            text-align: left;
+        }
+
+        /* card-column: sized entirely by JS */
+        #card-column {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+        }
+
+        /* card-wrapper clips the oversized card */
+        #card-wrapper {
+            overflow: hidden;
+            flex-shrink: 0;
+            border-radius: 6px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* THE CARD — always 1080x1350, scaled by JS transform */
+        #id-card {
+            width: 1080px;
+            height: 1350px;
+            background: #FFFBE8;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transform-origin: top left;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            width: 100%;
+            height: 180px;
+            background: #0b6839;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 50px 0;
+            position: relative;
+        }
+
+        .card-header img {
+            height: 90px;
+            width: auto;
+        }
+
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .header-date {
+            font-family: 'Victor Mono', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFBE8;
+            letter-spacing: 0.1em;
+        }
+
+        .tag-boarding {
+            background: #ff0080;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 99px;
+            font-family: 'Victor Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .inner-frame {
+            position: absolute;
+            inset: 12px;
+            border: 4px dashed rgba(255, 251, 232, 0.4);
+            border-radius: 16px;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .lanyard-hole {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            z-index: 25;
+        }
+
+        .card-middle {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 40px 0;
+            position: relative;
+            background: url('hackers.png') center bottom / cover no-repeat;
+        }
+
+        .photo-frame {
+            width: 460px;
+            height: 460px;
+            border-radius: 24px;
+            border: 4px solid #1a1a1a;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #0b6839;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        .builder-name {
+            font-family: 'Imbue', serif;
+            font-weight: 900;
+            font-size: 52px;
+            color: #fee101;
+            text-align: center;
+            line-height: 0.85;
+            margin-top: 24px;
+            max-width: 600px;
+            word-break: break-word;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0 #0b6839;
+            background: #0b6839;
+            padding: 12px 32px;
+            border-radius: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .builder-stack-pill {
+            background: #0b6839;
+            color: #fee101;
+            padding: 12px 32px;
+            border-radius: 14px;
+            font-family: 'Victor Mono', monospace;
+            font-size: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+        }
+
+        .builder-roast {
+            background: #0b6839;
+            border-radius: 16px;
+            padding: 16px 24px;
+            color: #fee101;
+            font-family: 'Victor Mono', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            font-style: italic;
+            text-align: center;
+            width: 80%;
+            margin: 20px auto 40px auto;
+            line-height: 1.35;
+        }
+
+        .card-footer {
+            height: 380px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px 60px;
+            position: relative;
+        }
+
+        .footer-flight-info {
+            font-family: 'Victor Mono', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            color: #0b6839;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .badge-motto {
+            font-family: 'Victor Mono', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: #0b6839;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 12px;
+            letter-spacing: 0.15em;
+            opacity: 0.8;
+        }
+
+        .barcode-line {
+            width: 100%;
+            height: 60px;
+            background: repeating-linear-gradient(to right,
+                    #0b6839, #0b6839 6px,
+                    transparent 6px, transparent 12px,
+                    #0b6839 12px, #0b6839 16px,
+                    transparent 16px, transparent 22px,
+                    #0b6839 22px, #0b6839 26px,
+                    transparent 26px, transparent 30px);
+            margin-bottom: 8px;
+        }
+
+        .tags {
+            text-align: right;
+            font-family: 'Victor Mono', monospace;
+            font-size: 26px;
+            font-weight: 700;
+            color: #0b6839;
+            line-height: 1.4;
+        }
+
+        /* buttons — always same width as card-column (set by JS) */
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            padding: 8px 0 calc(env(safe-area-inset-bottom, 0px) + 8px);
+        }
+
+        .btn-download,
+        .btn-share {
+            flex: 1;
+            height: 48px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Victor Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.1s;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .btn-download {
+            background: #fee101;
+            color: #000;
+        }
+
+        .btn-share {
+            background: #ff0080;
+            color: #fff;
+        }
+
+        .btn-download:active,
+        .btn-share:active {
+            transform: scale(0.98);
+        }
+
+        #share-toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #0b6839;
+            color: #fee101;
+            font-family: 'Victor Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 10px 20px;
+            border-radius: 99px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 999;
+        }
+
+        #share-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .tile-card {
+                padding: 3px 5px 4px;
+            }
+
+            .tile-label {
+                font-size: 5px;
+                margin-bottom: 2px;
+            }
+
+            .scene-input {
+                font-size: 8px;
+            }
+
+            .table-text {
+                font-size: 7px;
+                width: 65px;
+                padding: 3px 5px;
+            }
+        }
+
+        /* ── Tilt + Shine effect ── */
+        #card-wrapper {
+            perspective: 1000px;
+        }
+
+        #id-card {
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        .card-shine {
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+            background: radial-gradient(circle at 50% 50%,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0.1) 40%,
+                    transparent 70%);
+            mix-blend-mode: overlay;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loader"
+        style="position:fixed;inset:0;background:#1b4d1b;display:flex;align-items:center;justify-content:center;z-index:9999">
+        <div
+            style="font-family:'Victor Mono',monospace;color:#fee101;font-size:14px;letter-spacing:0.2em;animation:pulse 1s infinite">
+            Almost Ready to Impress
+        </div>
+    </div>
+
+    <!-- ── FORM SCREEN ── -->
+    <div id="form-screen">
+        <div id="scene">
+            <img id="scene-img" src="main.png" alt="Hacker House Goa">
+            <div class="logo-overlay">
+                <img src="logo.png" alt="Hacker House Goa 2026">
+            </div>
+            <div class="tile-card tile-card--stack">
+                <span class="tile-label">Role</span>
+                <input class="scene-input" type="text" id="stack-input" placeholder="e.g. Designer, Developer"
+                    autocomplete="off" spellcheck="false">
+            </div>
+            <div class="tile-card tile-card--name">
+                <span class="tile-label">Your Name</span>
+                <input class="scene-input" type="text" id="name-input" placeholder="your name" autocomplete="off"
+                    spellcheck="false">
+            </div>
+            <div class="laptop-overlay" id="laptop-zone">
+                <img class="laptop-screen-default" id="laptop-screen-default" src="Screen.png" alt="laptop screen">
+                <img class="laptop-photo" id="laptop-preview" src="" alt="your photo">
+            </div>
+            <button class="door-btn" id="door-btn" aria-label="Generate ID card"></button>
+            <div class="table-text">CLICK THE DOOR<br>TO GENERATE ID CARD</div>
+            <input type="file" id="photo-input" accept="image/*">
+        </div>
+    </div>
+
+    <!-- ── CARD SCREEN ── -->
+    <div id="card-screen">
+        <div id="card-column">
+            <div class="back-bar">
+                <button class="back-btn" id="back-btn">← edit</button>
+            </div>
+            <div id="card-wrapper">
+                <div id="id-card">
+                    <div class="inner-frame"></div>
+                    <div class="card-shine" id="card-shine"></div>
+                    <div class="lanyard-hole"></div>
+
+                    <div class="card-header">
+                        <img src="logo.png" alt="Hacker House Goa">
+                        <div class="header-right">
+                            <div class="tag-boarding">BOARDING: BUILDER</div>
+                            <div class="header-date">GOA, INDIA · 28-31 OCT 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="card-middle">
+                        <div class="photo-frame">
+                            <img id="card-photo" src="" alt="Builder photo">
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="builder-roast" id="card-roast">"roast goes here"</div>
+                        <div class="footer-flight-info">
+                            <span class="builder-name" id="card-name">YOUR NAME</span>
+                            <span>FROM: INTERNET → TO: GOA</span>
+                        </div>
+                        <div class="barcode-line"></div>
+                        <div class="footer-meta">
+                            <div class="builder-stack-pill" id="card-stack">your role</div>
+                            <div class="tags">#HH-GOA-2026<br>#FrameInGoa</div>
+                        </div>
+                        <div class="badge-motto">BUILD · SHIP · LAUNCH · REPEAT</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <button class="btn-download" id="btn-download">⬇ Download</button>
+                <button class="btn-share" id="btn-share">Share to X</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="share-toast">🖼 Check downloads · drag & drop into tweet</div>
+
+    <script>
+        /* ── loader ── */
+        const sceneImg = document.getElementById('scene-img');
+        const loader = document.getElementById('loader');
+        sceneImg.addEventListener('load', () => {
+            loader.style.opacity = '0';
+            loader.style.transition = 'opacity 0.4s';
+            setTimeout(() => loader.style.display = 'none', 400);
+        });
+        if (sceneImg.complete) loader.style.display = 'none';
+
+        /* ── roasts ── */
+        const roasts = {
+            design: ["Makes buttons pretty, calls it shipping", "Pixel pusher with trust issues", "Canva open, Figma crashing, vibes immaculate"],
+            dev: ["Touches grass less than the server", "Debugs in production, prays in private"],
+            ai: ["Wraps GPT, calls it a startup", "Prompt engineer in denial", "Fine-tuning models, not sleep schedules"],
+            web3: ["Ships at 2am, blames the RPC", "Decentralised everything except opinions", "Lost funds to gas fees, found purpose"],
+            founder: ["Pivoted 4 times, still day one", "The deck is ready, the product is not", "Raising pre-seed on a napkin and vibes"],
+            fullstack: ["Jack of all stacks, master of none", "Full stack, empty sleep, full send", "Frontend by day, backend by night, sleep never"],
+            fallback: ["Professional tab hoarder", "In a situationship with the terminal", "Runs on chai and unread Slack messages", "Side projects: 12. Finished: 0", "Will fix it after the hackathon", "Debugs in production, prays in private"]
+        };
+
+        function getRoast(stack) {
+            const s = stack.toLowerCase();
+            let cat = 'fallback';
+            if (/design|figma|ui|ux|product|creative|brand/i.test(s)) cat = 'design';
+            else if (/dev|engineer|code|react|node|python|backend|frontend|infra|aws|django|rails|golang|vue|svelte/i.test(s)) cat = 'dev';
+            else if (/\bai\b|llm|gpt|\bml\b|machine.learning|openai|claude|data/i.test(s)) cat = 'ai';
+            else if (/solana|\beth\b|web3|onchain|crypto|defi|nft|blockchain/i.test(s)) cat = 'web3';
+            else if (/founder|ceo|cto|build|startup|venture/i.test(s)) cat = 'founder';
+            else if (/fullstack|full.stack/i.test(s)) cat = 'fullstack';
+            const b = roasts[cat];
+            return b[Math.floor(Math.random() * b.length)];
+        }
+
+        /* ── refs ── */
+        let photoSrc = null;
+        let cachedCanvas = null;
+        const photoInput = document.getElementById('photo-input');
+        const laptopZone = document.getElementById('laptop-zone');
+        const laptopPreview = document.getElementById('laptop-preview');
+        const laptopScreenDefault = document.getElementById('laptop-screen-default');
+        const nameInput = document.getElementById('name-input');
+        const stackInput = document.getElementById('stack-input');
+        const doorBtn = document.getElementById('door-btn');
+        const formScreen = document.getElementById('form-screen');
+        const cardScreen = document.getElementById('card-screen');
+        const cardPhoto = document.getElementById('card-photo');
+        const cardName = document.getElementById('card-name');
+        const cardStack = document.getElementById('card-stack');
+        const cardRoast = document.getElementById('card-roast');
+        const idCard = document.getElementById('id-card');
+        const cardWrapper = document.getElementById('card-wrapper');
+        const cardColumn = document.getElementById('card-column');
+        const btnDownload = document.getElementById('btn-download');
+        const btnShare = document.getElementById('btn-share');
+        const backBtn = document.getElementById('back-btn');
+
+        /* ── photo upload ── */
+        laptopZone.addEventListener('click', () => photoInput.click());
+
+        photoInput.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                photoSrc = ev.target.result;
+                laptopPreview.src = photoSrc;
+                laptopScreenDefault.style.display = 'none';
+                setTimeout(() => {
+                    laptopPreview.classList.add('visible');
+                    laptopPreview.style.cssText = 'display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:5';
+                }, 50);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        /* ── scaleCard ──
+           Sets card transform scale so the 1080-wide card fits the viewport,
+           then sets card-column width = rendered card width so buttons match exactly.
+        */
+        function scaleCard() {
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const availW = vw - 16;          // 8px breathing room each side
+            const availH = vh - 140;         // back-bar + buttons + safe area
+            const scale = Math.min(availW / 1080, availH / 1350, 1);
+            const cardW = Math.floor(1080 * scale);
+            const cardH = Math.floor(1350 * scale);
+
+            // Scale the card in-place (top-left origin so wrapper clips correctly)
+            idCard.style.transform = `scale(${scale})`;
+            idCard.style.transformOrigin = 'top left';
+
+            // Wrapper = exact rendered size so nothing overflows
+            cardWrapper.style.width = cardW + 'px';
+            cardWrapper.style.height = cardH + 'px';
+
+            // Column = same width → buttons stretch to match
+            cardColumn.style.width = cardW + 'px';
+            cardWrapper._scale = scale;
+        }
+
+        window.addEventListener('resize', () => {
+            if (cardScreen.classList.contains('visible')) scaleCard();
+        });
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                if (cardScreen.classList.contains('visible')) scaleCard();
+            }, 300);
+        });
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', () => {
+                if (cardScreen.classList.contains('visible')) scaleCard();
+            });
+        }
+
+        /* ── door → generate card ── */
+        doorBtn.addEventListener('click', () => {
+            if (!photoSrc) {
+                laptopZone.style.outline = '2px solid #fee101';
+                setTimeout(() => { laptopZone.style.outline = ''; }, 900);
+                photoInput.click();
+                return;
+            }
+            const name = (nameInput.value.trim() || 'ANON BUILDER').toUpperCase();
+            const stack = stackInput.value.trim() || 'building in goa';
+            const roast = getRoast(stack);
+            cardPhoto.src = photoSrc;
+            cardName.textContent = 'NAME: ' + name;
+            cardStack.textContent = 'ROLE: ' + stack.split(/[\s,]+/).filter(Boolean).join(' · ');
+            cardRoast.textContent = `"${roast}"`;
+            formScreen.style.display = 'none';
+            cardScreen.classList.add('visible');
+            window.scrollTo(0, 0);
+            scaleCard();
+            // Pre-render in background after card is shown
+            cachedCanvas = null;
+            setTimeout(async () => {
+                cachedCanvas = await captureCard();
+            }, 400);
+        });
+
+        backBtn.addEventListener('click', () => {
+            cardScreen.classList.remove('visible');
+            formScreen.style.display = 'flex';
+        });
+
+        /* ── capture helper ── */
+        async function captureCard() {
+            const origTransform = idCard.style.transform;
+            const origOrigin = idCard.style.transformOrigin;
+            const origWrapW = cardWrapper.style.width;
+            const origWrapH = cardWrapper.style.height;
+            const origColW = cardColumn.style.width;
+
+            // Reset to full 1080×1350 for capture
+            // Hide shine before capture
+            shine.style.display = 'none';
+
+            // Reset to full 1080×1350 for capture
+            idCard.style.transform = 'none';
+            idCard.style.transformOrigin = 'top left';
+            cardWrapper.style.width = '1080px';
+            cardWrapper.style.height = '1350px';
+            cardColumn.style.width = '1080px';
+
+            await new Promise(r => setTimeout(r, 200));
+
+            try {
+                return await html2canvas(idCard, {
+                    width: 1080, height: 1350, scale: 1,
+                    backgroundColor: '#FFFBE8',
+                    useCORS: true, allowTaint: true,
+                    imageTimeout: 0, logging: false,
+                    onclone: doc => {
+                        const c = doc.getElementById('id-card');
+                        c.style.transform = 'none';
+                        c.style.borderRadius = '24px';
+                        c.style.overflow = 'hidden';
+                    }
+                });
+            } finally {
+                shine.style.display = '';
+                idCard.style.transform = origTransform;
+                idCard.style.transformOrigin = origOrigin;
+                cardWrapper.style.width = origWrapW;
+                cardWrapper.style.height = origWrapH;
+                cardColumn.style.width = origColW;
+                scaleCard();
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('share-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        btnDownload.addEventListener('click', async () => {
+            btnDownload.textContent = 'Capturing...';
+            btnDownload.disabled = true;
+            try {
+                const canvas = cachedCanvas || await captureCard();
+                const a = document.createElement('a');
+                a.download = 'hh-goa-2026-card.png';
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+            } catch (err) {
+                alert('Download failed: ' + err.message);
+            } finally {
+                btnDownload.textContent = '⬇ Download';
+                btnDownload.disabled = false;
+            }
+        });
+
+        btnShare.addEventListener('click', async () => {
+            btnShare.textContent = 'Preparing...';
+            btnShare.disabled = true;
+            showToast();
+            try {
+                const canvas = cachedCanvas || await captureCard();
+                const tweetText = 'First step toward Hacker House Goa 2026 🌴  Built my Builder ID card—claim yours too and join the challenge.\n\nTry it out 👉 https://hacker-house-id-card-generator-flax.vercel.app/\n\n#FrameInGoa #HHGOA2026 @247pmstudio ';
+                await new Promise(r => setTimeout(r, 2000));
+                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+                const a = document.createElement('a');
+                a.download = 'hh-goa-2026-card.png';
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+            } catch (err) {
+                alert('Share failed: ' + err.message);
+            } finally {
+                btnShare.textContent = 'Share to X';
+                btnShare.disabled = false;
+            }
+        });
+        /* ── Tilt + Shine ── */
+        const shine = document.getElementById('card-shine');
+        const tiltCard = idCard;
+
+        function applyTilt(x, y, rect) {
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = (x - cx) / (rect.width / 2);
+            const dy = (y - cy) / (rect.height / 2);
+            const rotateX = -dy * 10;
+            const rotateY = dx * 10;
+            const scale = cardWrapper._scale || 1;
+            const cardW = 1080 * scale;
+            const cardH = 1350 * scale;
+            const offsetX = (rect.width - cardW) / 2;
+            const offsetY = (rect.height - cardH) / 2;
+            tiltCard.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px) scale(${scale}) translateX(${-offsetX / scale}px) translateY(${-offsetY / scale}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${offsetX / scale}px) translateY(${offsetY / scale}px)`;
+            shine.style.opacity = '1';
+            shine.style.background = `radial-gradient(circle at ${(dx + 1) / 2 * 100}% ${(dy + 1) / 2 * 100}%,
+                rgba(255,255,255,0.45) 0%,
+                rgba(255,255,255,0.1) 40%,
+                transparent 70%)`;
+        }
+        function resetTilt() {
+            tiltCard.style.transform = `scale(${cardWrapper._scale || 1})`;
+            tiltCard.style.transformOrigin = 'top left';
+            tiltCard.style.transition = 'transform 0.4s ease-out';
+            shine.style.opacity = '0';
+            setTimeout(() => { tiltCard.style.transition = 'transform 0.1s ease-out'; }, 400);
+        }
+
+        // Mouse
+        cardWrapper.addEventListener('mousemove', e => {
+            const rect = cardWrapper.getBoundingClientRect();
+            applyTilt(e.clientX, e.clientY, rect);
+        });
+        cardWrapper.addEventListener('mouseleave', resetTilt);
+
+        // Touch
+        // Touch — tilt only on non-mobile
+        if (window.matchMedia('(hover: hover)').matches) {
+            cardWrapper.addEventListener('touchmove', e => {
+                const rect = cardWrapper.getBoundingClientRect();
+                const t = e.touches[0];
+                applyTilt(t.clientX, t.clientY, rect);
+            }, { passive: true });
+            cardWrapper.addEventListener('touchend', resetTilt);
+        }
+    </script>
+</body>
+
+</html>
