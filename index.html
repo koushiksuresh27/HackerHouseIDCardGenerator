@@ -228,23 +228,25 @@
 
         .table-text {
             position: absolute;
-            bottom: 9%;
-            left: 2%;
-            background: #2d5a27;
-            border: 2px solid #1a3a15;
-            border-radius: 14px;
-            padding: 5px 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            font-weight: 900;
-            color: #FF2D7A;
-            text-align: left;
-            letter-spacing: 0.08em;
-            line-height: 1.4;
+            bottom: 6%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0b6839;
+            border: 2px solid #fee101;
+            border-radius: 99px;
+            padding: 6px 16px;
+            font-family: 'Victor Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fee101;
+            text-align: center;
+            letter-spacing: 0.12em;
+            line-height: 1.3;
             pointer-events: none;
-            white-space: normal;
-            width: 90px;
+            white-space: nowrap;
             z-index: 10;
+            opacity: 0;
+            transition: opacity 0.5s;
         }
 
         /* ── CARD SCREEN ── */
@@ -363,13 +365,15 @@
 
         .lanyard-hole {
             position: absolute;
-            top: 20px;
+            top: 18px;
             left: 50%;
             transform: translateX(-50%);
-            width: 24px;
-            height: 24px;
-            background: #1a1a1a;
-            border-radius: 50%;
+            width: 120px;
+            height: 40px;
+            background: #0a5530;
+            border-radius: 99px;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6), inset 0 -1px 2px rgba(255, 255, 255, 0.05);
             z-index: 25;
         }
 
@@ -378,7 +382,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 50px 40px 0;
+            padding: 20px 40px 0;
             position: relative;
             background: url('hackers.png') center bottom / cover no-repeat;
         }
@@ -405,34 +409,30 @@
         .builder-name {
             font-family: 'Imbue', serif;
             font-weight: 900;
-            font-size: 52px;
-            color: #fee101;
-            text-align: center;
-            line-height: 0.85;
-            margin-top: 24px;
-            max-width: 600px;
-            word-break: break-word;
+            font-size: 72px;
+            color: #0b6839;
+            line-height: 1;
             text-transform: uppercase;
-            text-shadow: 3px 3px 0 #0b6839;
-            background: #0b6839;
-            padding: 12px 32px;
-            border-radius: 14px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            width: fit-content;
+            border-bottom: 4px solid #0b6839;
+            padding-bottom: 8px;
         }
 
         .builder-stack-pill {
-            background: #0b6839;
-            color: #fee101;
-            padding: 12px 32px;
-            border-radius: 14px;
             font-family: 'Victor Mono', monospace;
-            font-size: 30px;
+            font-size: 36px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
+            color: #ff0080;
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
             display: inline-block;
+            width: fit-content;
         }
 
         .builder-roast {
@@ -446,8 +446,10 @@
             font-style: italic;
             text-align: center;
             width: 80%;
-            margin: 20px auto 40px auto;
+            margin: -42px auto 0;
             line-height: 1.35;
+            position: relative;
+            z-index: 10;
         }
 
         .card-footer {
@@ -455,22 +457,14 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 40px 60px;
+            justify-content: space-between;
+            padding: 32px 60px 40px;
             position: relative;
+            background-color: #fffbe8;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0 50 Q50 0 100 50 Q150 100 200 50' fill='none' stroke='%230b6839' stroke-width='1.5' stroke-opacity='0.35'/%3E%3Cpath d='M0 80 Q50 30 100 80 Q150 130 200 80' fill='none' stroke='%230b6839' stroke-width='1.5' stroke-opacity='0.15'/%3E%3Cpath d='M0 110 Q50 60 100 110 Q150 160 200 110' fill='none' stroke='%230b6839' stroke-width='1.5' stroke-opacity='0.15'/%3E%3Cpath d='M0 140 Q50 90 100 140 Q150 190 200 140' fill='none' stroke='%230b6839' stroke-width='1.5' stroke-opacity='0.15'/%3E%3Cpath d='M0 170 Q50 120 100 170 Q150 220 200 170' fill='none' stroke='%230b6839' stroke-width='1.5' stroke-opacity='0.15'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
         }
 
-        .footer-flight-info {
-            font-family: 'Victor Mono', monospace;
-            font-size: 32px;
-            font-weight: 700;
-            color: #0b6839;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-        }
 
         .footer-meta {
             display: flex;
@@ -486,9 +480,9 @@
             color: #0b6839;
             text-align: center;
             width: 100%;
-            margin-bottom: 12px;
             letter-spacing: 0.15em;
             opacity: 0.8;
+            margin-top: auto;
         }
 
         .barcode-line {
@@ -633,6 +627,21 @@
                     transparent 70%);
             mix-blend-mode: overlay;
         }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .footer-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -641,7 +650,7 @@
         style="position:fixed;inset:0;background:#1b4d1b;display:flex;align-items:center;justify-content:center;z-index:9999">
         <div
             style="font-family:'Victor Mono',monospace;color:#fee101;font-size:14px;letter-spacing:0.2em;animation:pulse 1s infinite">
-            Almost Ready to Impress
+            Almost Ready to Impress!!
         </div>
     </div>
 
@@ -667,11 +676,12 @@
                 <img class="laptop-photo" id="laptop-preview" src="" alt="your photo">
             </div>
             <button class="door-btn" id="door-btn" aria-label="Generate ID card"></button>
-            <div class="table-text">CLICK THE DOOR<br>TO GENERATE ID CARD</div>
-            <input type="file" id="photo-input" accept="image/*">
+            <div class="table-text">CLICK THE DOOR TO GENERATE</div> <input type="file" id="photo-input"
+                accept="image/*">
         </div>
     </div>
 
+    <!-- ── CARD SCREEN ── -->
     <!-- ── CARD SCREEN ── -->
     <div id="card-screen">
         <div id="card-column">
@@ -698,42 +708,275 @@
                         </div>
                     </div>
 
+                    <div class="builder-roast" id="card-roast">"roast goes here"</div>
+
                     <div class="card-footer">
-                        <div class="builder-roast" id="card-roast">"roast goes here"</div>
-                        <div class="footer-flight-info">
-                            <span class="builder-name" id="card-name">YOUR NAME</span>
-                            <span>FROM: INTERNET → TO: GOA</span>
-                        </div>
-                        <div class="barcode-line"></div>
                         <div class="footer-meta">
-                            <div class="builder-stack-pill" id="card-stack">your role</div>
-                            <div class="tags">#HH-GOA-2026<br>#FrameInGoa</div>
+                            <div class="footer-left">
+                                <div>
+                                    <div
+                                        style="font-family:'Victor Mono',monospace;font-size:18px;font-weight:700;color:#0b6839;opacity:0.5;letter-spacing:4px;text-transform:uppercase;margin-bottom:4px;">
+                                    </div>
+                                    <span class="builder-name" id="card-name">YOUR NAME</span>
+                                </div>
+                                <div>
+                                    <div
+                                        style="font-family:'Victor Mono',monospace;font-size:18px;font-weight:700;color:#0b6839;opacity:0.5;letter-spacing:4px;text-transform:uppercase;margin-bottom:4px;">
+                                    </div>
+                                    <div class="builder-stack-pill" id="card-stack">your role</div>
+                                </div>
+                            </div>
+                            <div class="tags"
+                                style="background:#fffbe8;border:4px solid #0b6839;border-radius:16px;padding:0;overflow:hidden;line-height:1.4;width:340px;font-family:'Victor Mono',monospace;font-weight:700;">
+                                <div
+                                    style="background:#0b6839;padding:10px 20px;text-align:center;letter-spacing:4px;font-size:22px;color:#fee101;">
+                                    HACKER HOUSE GOA</div>
+                                <div style="padding:14px 20px 12px;border-bottom:2px dashed #0b6839;text-align:left;">
+                                    <span style="color:#ff0080;font-size:30px;">⌬</span>
+                                    <span style="color:#0b6839;font-size:22px;letter-spacing:3px;"> BUILDER ID</span>
+                                </div>
+                                <div style="padding:12px 20px 4px;font-size:24px;letter-spacing:1.5px;">
+                                    <span id="card-id-value"
+                                        style="color:#ff0080;white-space:nowrap;">BLD-GOA26-XX-XXXX</span>
+                                </div>
+                                <div
+                                    style="background:#0b6839;margin-top:12px;padding:8px 20px;text-align:center;font-size:16px;letter-spacing:4px;color:#fee101;">
+                                    28–31 OCT 2026</div>
+                            </div>
                         </div>
+                        <div
+                            style="font-family:'Victor Mono',monospace;font-size:22px;font-weight:700;color:#0b6839;letter-spacing:2px;opacity:0.7;">
+                            FROM: INTERNET → TO: GOA</div>
                         <div class="badge-motto">BUILD · SHIP · LAUNCH · REPEAT</div>
                     </div>
-                </div>
-            </div>
+
+                </div> <!-- closes id-card -->
+            </div> <!-- closes card-wrapper -->
 
             <div class="card-actions">
                 <button class="btn-download" id="btn-download">⬇ Download</button>
                 <button class="btn-share" id="btn-share">Share to X</button>
             </div>
+
+        </div> <!-- closes card-column -->
+    </div> <!-- closes card-screen -->
+
+    <div id="share-toast">🖼 Check downloads · drag & drop into tweet</div>
+    <!-- ── PHOTO EDITOR POPUP ── -->
+    <!-- ── PHOTO EDITOR POPUP ── -->
+    <div id="photo-editor"
+        style="display:none;position:fixed;inset:0;z-index:9000;align-items:center;justify-content:center;flex-direction:column;">
+
+        <!-- backdrop -->
+        <div
+            style="position:absolute;inset:0;background:rgba(27,77,27,0.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+        </div>
+
+        <!-- panel -->
+        <div
+            style="position:relative;z-index:1;width:min(460px,92vw);display:flex;flex-direction:column;border-radius:16px;overflow:hidden;border:2px solid #fee101;box-shadow:0 0 40px rgba(254,225,1,0.15),0 32px 80px rgba(0,0,0,0.8);">
+
+            <!-- top bar -->
+            <div
+                style="background:#0b6839;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+                <div>
+                    <div
+                        style="font-family:'Imbue',serif;font-size:24px;font-weight:900;color:#fee101;letter-spacing:2px;line-height:1;">
+                        FRAME YOUR SHOT</div>
+                    <div
+                        style="font-family:'Victor Mono',monospace;font-size:10px;color:rgba(254,225,1,0.5);letter-spacing:3px;margin-top:4px;">
+                        BUILDER PORTRAIT · HH GOA 2026</div>
+                </div>
+                <button id="editor-cancel"
+                    style="width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.3);border:1.5px solid rgba(254,225,1,0.4);color:#fee101;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
+            </div>
+
+            <!-- canvas zone -->
+            <div id="canvas-zone"
+                style="background:#0b6839;position:relative;width:100%;border-radius:12px;overflow:hidden;margin:10px auto;">
+                <div
+                    style="position:absolute;inset:0;border:3px solid #fee101;border-radius:12px;z-index:3;pointer-events:none;overflow:hidden;">
+                </div> <canvas id="editor-canvas" style="display:block;"></canvas>
+            </div>
+
+            <!-- controls -->
+            <div
+                style="background:#0b6839;padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;border-top:2px solid rgba(254,225,1,0.3);">
+
+                <div style="display:grid;grid-template-columns:56px 1fr 40px;align-items:center;gap:10px;">
+                    <span
+                        style="font-family:'Victor Mono',monospace;font-size:10px;font-weight:700;color:rgba(254,225,1,0.6);letter-spacing:3px;">ZOOM</span>
+                    <input type="range" id="editor-zoom" min="0.5" max="3" step="0.01" value="1"
+                        style="width:100%;accent-color:#fee101;cursor:pointer;">
+                    <span id="zoom-val"
+                        style="font-family:'Victor Mono',monospace;font-size:11px;color:#fee101;text-align:right;font-weight:700;">1.0×</span>
+                </div>
+
+                <div style="display:grid;grid-template-columns:56px 1fr 40px;align-items:center;gap:10px;">
+                    <span
+                        style="font-family:'Victor Mono',monospace;font-size:10px;font-weight:700;color:rgba(254,225,1,0.6);letter-spacing:3px;">ROTATE</span>
+                    <input type="range" id="editor-rotate" min="-180" max="180" step="1" value="0"
+                        style="width:100%;accent-color:#fee101;cursor:pointer;">
+                    <span id="rotate-val"
+                        style="font-family:'Victor Mono',monospace;font-size:11px;color:#fee101;text-align:right;font-weight:700;">0°</span>
+                </div>
+
+                <div style="display:flex;gap:8px;">
+                    <button id="editor-flip-h"
+                        style="flex:1;height:38px;background:rgba(254,225,1,0.12);color:#fee101;border:1.5px solid rgba(254,225,1,0.4);border-radius:8px;font-family:'Victor Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;">⇔
+                        FLIP H</button>
+                    <button id="editor-flip-v"
+                        style="flex:1;height:38px;background:rgba(254,225,1,0.12);color:#fee101;border:1.5px solid rgba(254,225,1,0.4);border-radius:8px;font-family:'Victor Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;">⇕
+                        FLIP V</button>
+                    <button id="editor-reset"
+                        style="flex:1;height:38px;background:rgba(255,0,128,0.15);color:#ff0080;border:1.5px solid rgba(255,0,128,0.5);border-radius:8px;font-family:'Victor Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;">⟳
+                        RESET</button>
+                </div>
+
+                <button id="editor-confirm"
+                    style="width:100%;height:50px;background:#fee101;color:#0b6839;border:none;border-radius:10px;font-family:'Imbue',serif;font-size:20px;font-weight:900;letter-spacing:2px;cursor:pointer;">LOCK
+                    IN PHOTO →</button>
+
+            </div>
         </div>
     </div>
 
-    <div id="share-toast">🖼 Check downloads · drag & drop into tweet</div>
 
     <script>
         /* ── loader ── */
         const sceneImg = document.getElementById('scene-img');
         const loader = document.getElementById('loader');
-        sceneImg.addEventListener('load', () => {
+        function hideLoader() {
             loader.style.opacity = '0';
             loader.style.transition = 'opacity 0.4s';
             setTimeout(() => loader.style.display = 'none', 400);
-        });
-        if (sceneImg.complete) loader.style.display = 'none';
+        }
+        sceneImg.addEventListener('load', hideLoader);
+        sceneImg.addEventListener('error', hideLoader);
+        if (sceneImg.complete) hideLoader();
+        /* ── PHOTO EDITOR ── */
+        /* ── PHOTO EDITOR ── */
+        const editorCanvas = document.getElementById('editor-canvas');
+        const editorCtx = editorCanvas.getContext('2d');
+        const editorZoom = document.getElementById('editor-zoom');
+        const editorRotate = document.getElementById('editor-rotate');
+        const zoomVal = document.getElementById('zoom-val');
+        const rotateVal = document.getElementById('rotate-val');
 
+        let editorImg = null;
+        let editorState = { zoom: 1, rotate: 0, flipH: false, flipV: false };
+        function renderEditor() {
+            const size = editorCanvas.width;
+            if (!size || !editorImg) return;
+
+            // background
+            // yellow background
+            editorCtx.fillStyle = '#fee101';
+            editorCtx.fillRect(0, 0, size, size);
+
+            // green wavy lines
+            editorCtx.save();
+            editorCtx.strokeStyle = 'rgba(11,104,57,0.5)';
+            editorCtx.lineWidth = 2.5;
+            for (let y = -40; y < size + 40; y += 22) {
+                editorCtx.beginPath();
+                for (let x = 0; x <= size; x += 4) {
+                    const wy = y + Math.sin((x / size) * Math.PI * 3) * 12;
+                    if (x === 0) editorCtx.moveTo(x, wy);
+                    else editorCtx.lineTo(x, wy);
+                }
+                editorCtx.stroke();
+            }
+            editorCtx.restore();
+
+            // image
+            editorCtx.save();
+            editorCtx.translate(size / 2, size / 2);
+            editorCtx.rotate(editorState.rotate * Math.PI / 180);
+            const fitScale = Math.max(size / editorImg.width, size / editorImg.height);
+            const sx = editorState.flipH ? -(fitScale * editorState.zoom) : (fitScale * editorState.zoom);
+            const sy = editorState.flipV ? -(fitScale * editorState.zoom) : (fitScale * editorState.zoom);
+            editorCtx.scale(sx, sy);
+            editorCtx.drawImage(editorImg, -editorImg.width / 2, -editorImg.height / 2);
+            editorCtx.restore();
+        }
+
+        function openEditor(src) {
+            editorImg = new Image();
+            editorImg.onload = () => {
+                editorState = { zoom: 1, rotate: 0, flipH: false, flipV: false };
+                editorZoom.value = 1;
+                editorRotate.value = 0;
+                zoomVal.textContent = '1.0×';
+                rotateVal.textContent = '0°';
+                photoEditor.style.display = 'flex';
+                setTimeout(() => {
+                    const zone = document.getElementById('canvas-zone');
+                    const size = Math.min(Math.floor(window.innerHeight * 0.42), zone.offsetWidth);
+                    editorCanvas.width = size;
+                    editorCanvas.height = size;
+                    editorCanvas.style.width = size + 'px';
+                    editorCanvas.style.height = size + 'px';
+                    zone.style.width = size + 'px';
+                    zone.style.height = size + 'px';
+                    zone.style.margin = '0 auto';
+                    renderEditor();
+                }, 50);
+            };
+            editorImg.src = src;
+        }
+
+        editorZoom.addEventListener('input', () => {
+            editorState.zoom = parseFloat(editorZoom.value);
+            zoomVal.textContent = editorState.zoom.toFixed(1) + '×';
+            renderEditor();
+        });
+
+        editorRotate.addEventListener('input', () => {
+            editorState.rotate = parseFloat(editorRotate.value);
+            rotateVal.textContent = editorState.rotate + '°';
+            renderEditor();
+        });
+
+        document.getElementById('editor-flip-h').addEventListener('click', () => {
+            editorState.flipH = !editorState.flipH;
+            renderEditor();
+        });
+
+        document.getElementById('editor-flip-v').addEventListener('click', () => {
+            editorState.flipV = !editorState.flipV;
+            renderEditor();
+        });
+
+        document.getElementById('editor-reset').addEventListener('click', () => {
+            editorState = { zoom: 1, rotate: 0, flipH: false, flipV: false };
+            editorZoom.value = 1;
+            editorRotate.value = 0;
+            zoomVal.textContent = '1.0×';
+            rotateVal.textContent = '0°';
+            renderEditor();
+        });
+
+        document.getElementById('editor-cancel').addEventListener('click', () => {
+            photoEditor.style.display = 'none';
+        });
+
+        document.getElementById('editor-confirm').addEventListener('click', () => {
+            photoSrc = editorCanvas.toDataURL('image/png');
+            laptopPreview.src = photoSrc;
+            laptopScreenDefault.style.display = 'none';
+            laptopPreview.classList.add('visible');
+            laptopPreview.style.cssText = 'display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:5';
+            photoEditor.style.display = 'none';
+            // show the table text toast
+            const tableText = document.querySelector('.table-text');
+            tableText.style.opacity = '1';
+            tableText.style.pointerEvents = 'auto';
+            setTimeout(() => {
+                tableText.style.opacity = '0';
+                tableText.style.pointerEvents = 'none';
+            }, 3000);
+        });
         /* ── roasts ── */
         const roasts = {
             design: ["Makes buttons pretty, calls it shipping", "Pixel pusher with trust issues", "Canva open, Figma crashing, vibes immaculate"],
@@ -780,6 +1023,7 @@
         const btnDownload = document.getElementById('btn-download');
         const btnShare = document.getElementById('btn-share');
         const backBtn = document.getElementById('back-btn');
+        const photoEditor = document.getElementById('photo-editor');
 
         /* ── photo upload ── */
         laptopZone.addEventListener('click', () => photoInput.click());
@@ -788,15 +1032,7 @@
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = ev => {
-                photoSrc = ev.target.result;
-                laptopPreview.src = photoSrc;
-                laptopScreenDefault.style.display = 'none';
-                setTimeout(() => {
-                    laptopPreview.classList.add('visible');
-                    laptopPreview.style.cssText = 'display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:5';
-                }, 50);
-            };
+            reader.onload = ev => openEditor(ev.target.result);
             reader.readAsDataURL(file);
         });
 
@@ -854,7 +1090,9 @@
             cardPhoto.src = photoSrc;
             cardName.textContent = 'NAME: ' + name;
             cardStack.textContent = 'ROLE: ' + stack.split(/[\s,]+/).filter(Boolean).join(' · ');
+            const cardIdValue = document.getElementById('card-id-value');
             cardRoast.textContent = `"${roast}"`;
+            cardIdValue.textContent = generateId(name);
             formScreen.style.display = 'none';
             cardScreen.classList.add('visible');
             window.scrollTo(0, 0);
@@ -879,11 +1117,10 @@
             const origWrapH = cardWrapper.style.height;
             const origColW = cardColumn.style.width;
 
-            // Reset to full 1080×1350 for capture
-            // Hide shine before capture
             shine.style.display = 'none';
+            cardColumn.style.opacity = '0';
+            cardColumn.style.pointerEvents = 'none';
 
-            // Reset to full 1080×1350 for capture
             idCard.style.transform = 'none';
             idCard.style.transformOrigin = 'top left';
             cardWrapper.style.width = '1080px';
@@ -912,10 +1149,11 @@
                 cardWrapper.style.width = origWrapW;
                 cardWrapper.style.height = origWrapH;
                 cardColumn.style.width = origColW;
+                cardColumn.style.opacity = '1';
+                cardColumn.style.pointerEvents = '';
                 scaleCard();
             }
         }
-
         function showToast() {
             const toast = document.getElementById('share-toast');
             toast.classList.add('show');
@@ -1007,7 +1245,24 @@
             }, { passive: true });
             cardWrapper.addEventListener('touchend', resetTilt);
         }
+        function generateId(name) {
+            const clean = name.trim().toUpperCase().replace(/[^A-Z0-9 ]/g, '');
+            const parts = clean.split(/\s+/).filter(Boolean);
+            let initials = parts.length >= 2
+                ? parts[0][0] + parts[parts.length - 1][0]
+                : (clean + 'XX').slice(0, 2);
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let seed = 0;
+            for (let i = 0; i < clean.length; i++) seed = (seed * 31 + clean.charCodeAt(i)) >>> 0;
+            let suffix = '';
+            for (let i = 0; i < 4; i++) {
+                seed = (seed * 1664525 + 1013904223) >>> 0;
+                suffix += chars[seed % chars.length];
+            }
+            return `BLD-GOA26-${initials}-${suffix}`;
+        }
     </script>
+
 </body>
 
 </html>
