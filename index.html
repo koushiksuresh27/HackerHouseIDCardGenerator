@@ -264,7 +264,6 @@
             display: flex;
         }
 
-
         .back-bar {
             padding: 10px 0 0;
         }
@@ -284,22 +283,21 @@
             text-align: left;
         }
 
-        /* card-column: sized entirely by JS */
         #card-column {
             display: flex;
             flex-direction: column;
             margin: 0 auto;
         }
 
-        /* card-wrapper clips the oversized card */
         #card-wrapper {
-            overflow: hidden;
             flex-shrink: 0;
             border-radius: 6px;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: visible;
+            perspective: 1200px;
         }
 
-        /* THE CARD — always 1080x1350, scaled by JS transform */
         #id-card {
             width: 1080px;
             height: 1350px;
@@ -370,10 +368,9 @@
             transform: translateX(-50%);
             width: 120px;
             height: 40px;
-            background: #0a5530;
+            background: transparent;
             border-radius: 99px;
-            border: 3px solid rgba(255, 255, 255, 0.15);
-            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6), inset 0 -1px 2px rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.35);
             z-index: 25;
         }
 
@@ -465,7 +462,6 @@
             background-size: 200px 200px;
         }
 
-
         .footer-meta {
             display: flex;
             justify-content: space-between;
@@ -507,7 +503,7 @@
             line-height: 1.4;
         }
 
-        /* buttons — always same width as card-column (set by JS) */
+        /* ── 3 action buttons ── */
         .card-actions {
             display: flex;
             gap: 12px;
@@ -521,9 +517,9 @@
             border: none;
             border-radius: 10px;
             font-family: 'Victor Mono', monospace;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             cursor: pointer;
             transition: transform 0.1s;
@@ -543,6 +539,12 @@
         .btn-download:active,
         .btn-share:active {
             transform: scale(0.98);
+        }
+
+        .btn-download:disabled,
+        .btn-share:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         #share-toast {
@@ -568,6 +570,153 @@
         #share-toast.show {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
+        }
+
+        /* ── card hint popup ── */
+        #card-hint {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.88);
+            z-index: 500;
+            width: min(360px, 92vw);
+            background: #fffbe8;
+            border-radius: 16px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            box-shadow: 0 0 0 3px #1a1a1a, 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        #card-hint.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .hint-header {
+            background: #0b6839;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hint-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .hint-eyebrow {
+            font-family: 'Victor Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(254, 225, 1, 0.5);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .hint-title {
+            font-family: 'Imbue', serif;
+            font-size: 22px;
+            font-weight: 900;
+            color: #fee101;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+
+        .hint-boarding {
+            background: #ff0080;
+            color: #fff;
+            font-family: 'Victor Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 5px 10px;
+            border-radius: 99px;
+        }
+
+        .hint-body {
+            padding: 0;
+        }
+
+        .hint-row {
+            display: flex;
+            align-items: stretch;
+            border-bottom: 2px dashed rgba(11, 104, 57, 0.2);
+        }
+
+        .hint-row:last-child {
+            border-bottom: none;
+        }
+
+        .hint-tag {
+            background: #0b6839;
+            color: #fee101;
+            font-family: 'Victor Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            padding: 14px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .hint-content {
+            padding: 14px 16px;
+            flex: 1;
+        }
+
+        .hint-action {
+            font-family: 'Victor Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0b6839;
+            letter-spacing: 0.05em;
+            margin-bottom: 3px;
+        }
+
+        .hint-sub {
+            font-family: 'Victor Mono', monospace;
+            font-size: 11px;
+            font-weight: 400;
+            font-style: italic;
+            color: #ff0080;
+            line-height: 1.4;
+        }
+
+        .hint-footer {
+            background: #fee101;
+            padding: 0;
+        }
+
+        #hint-dismiss {
+            width: 100%;
+            background: transparent;
+            border: none;
+            font-family: 'Victor Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: #0b6839;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #hint-dismiss:active {
+            background: rgba(0, 0, 0, 0.06);
         }
 
         @keyframes pulse {
@@ -603,11 +752,7 @@
             }
         }
 
-        /* ── Tilt + Shine effect ── */
-        #card-wrapper {
-            perspective: 1000px;
-        }
-
+        /* ── Tilt + Shine ── */
         #id-card {
             transition: transform 0.1s ease-out;
             transform-style: preserve-3d;
@@ -641,6 +786,34 @@
             align-items: center;
             gap: 24px;
             margin-bottom: 20px;
+        }
+
+        /* ── FLIP ── */
+        #id-card,
+        #card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1080px;
+            height: 1350px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        #card-inner {
+            position: relative;
+            width: 1080px;
+            height: 1350px;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top left;
+        }
+
+        #card-back {
+            transform: rotateY(180deg);
+            background: #0b6839;
         }
     </style>
 </head>
@@ -676,12 +849,11 @@
                 <img class="laptop-photo" id="laptop-preview" src="" alt="your photo">
             </div>
             <button class="door-btn" id="door-btn" aria-label="Generate ID card"></button>
-            <div class="table-text">CLICK THE DOOR TO GENERATE</div> <input type="file" id="photo-input"
-                accept="image/*">
+            <div class="table-text">CLICK THE DOOR TO GENERATE</div>
+            <input type="file" id="photo-input" accept="image/*">
         </div>
     </div>
 
-    <!-- ── CARD SCREEN ── -->
     <!-- ── CARD SCREEN ── -->
     <div id="card-screen">
         <div id="card-column">
@@ -689,68 +861,220 @@
                 <button class="back-btn" id="back-btn">← edit</button>
             </div>
             <div id="card-wrapper">
-                <div id="id-card">
-                    <div class="inner-frame"></div>
-                    <div class="card-shine" id="card-shine"></div>
-                    <div class="lanyard-hole"></div>
+                <div id="card-inner">
+                    <div id="id-card">
+                        <div class="inner-frame"></div>
+                        <div class="card-shine" id="card-shine"></div>
+                        <div class="lanyard-hole"></div>
 
-                    <div class="card-header">
-                        <img src="logo.png" alt="Hacker House Goa">
-                        <div class="header-right">
-                            <div class="tag-boarding">BOARDING: BUILDER</div>
-                            <div class="header-date">GOA, INDIA · 28-31 OCT 2026</div>
-                        </div>
-                    </div>
-
-                    <div class="card-middle">
-                        <div class="photo-frame">
-                            <img id="card-photo" src="" alt="Builder photo">
-                        </div>
-                    </div>
-
-                    <div class="builder-roast" id="card-roast">"roast goes here"</div>
-
-                    <div class="card-footer">
-                        <div class="footer-meta">
-                            <div class="footer-left">
-                                <div>
-                                    <div
-                                        style="font-family:'Victor Mono',monospace;font-size:18px;font-weight:700;color:#0b6839;opacity:0.5;letter-spacing:4px;text-transform:uppercase;margin-bottom:4px;">
-                                    </div>
-                                    <span class="builder-name" id="card-name">YOUR NAME</span>
-                                </div>
-                                <div>
-                                    <div
-                                        style="font-family:'Victor Mono',monospace;font-size:18px;font-weight:700;color:#0b6839;opacity:0.5;letter-spacing:4px;text-transform:uppercase;margin-bottom:4px;">
-                                    </div>
-                                    <div class="builder-stack-pill" id="card-stack">your role</div>
-                                </div>
-                            </div>
-                            <div class="tags"
-                                style="background:#fffbe8;border:4px solid #0b6839;border-radius:16px;padding:0;overflow:hidden;line-height:1.4;width:340px;font-family:'Victor Mono',monospace;font-weight:700;">
-                                <div
-                                    style="background:#0b6839;padding:10px 20px;text-align:center;letter-spacing:4px;font-size:22px;color:#fee101;">
-                                    HACKER HOUSE GOA</div>
-                                <div style="padding:14px 20px 12px;border-bottom:2px dashed #0b6839;text-align:left;">
-                                    <span style="color:#ff0080;font-size:30px;">⌬</span>
-                                    <span style="color:#0b6839;font-size:22px;letter-spacing:3px;"> BUILDER ID</span>
-                                </div>
-                                <div style="padding:12px 20px 4px;font-size:24px;letter-spacing:1.5px;">
-                                    <span id="card-id-value"
-                                        style="color:#ff0080;white-space:nowrap;">BLD-GOA26-XX-XXXX</span>
-                                </div>
-                                <div
-                                    style="background:#0b6839;margin-top:12px;padding:8px 20px;text-align:center;font-size:16px;letter-spacing:4px;color:#fee101;">
-                                    28–31 OCT 2026</div>
+                        <div class="card-header">
+                            <img src="logo.png" alt="Hacker House Goa">
+                            <div class="header-right">
+                                <div class="tag-boarding">BOARDING: BUILDER</div>
+                                <div class="header-date">GOA, INDIA · 28-31 OCT 2026</div>
                             </div>
                         </div>
+
+                        <div class="card-middle">
+                            <div class="photo-frame">
+                                <img id="card-photo" src="" alt="Builder photo">
+                            </div>
+                        </div>
+
+                        <div class="builder-roast" id="card-roast">"roast goes here"</div>
+
+                        <div class="card-footer">
+                            <div class="footer-meta">
+                                <div class="footer-left">
+                                    <div>
+                                        <div
+                                            style="font-family:'Victor Mono',monospace;font-size:18px;font-weight:700;color:#0b6839;opacity:0.5;letter-spacing:4px;text-transform:uppercase;margin-bottom:4px;">
+                                        </div>
+                                        <span class="builder-name" id="card-name">YOUR NAME</span>
+                                    </div>
+                                    <div>
+                                        <div
+                                            style="font-family:'Victor Mono',monospace;font-size:18px;font-weight:700;color:#0b6839;opacity:0.5;letter-spacing:4px;text-transform:uppercase;margin-bottom:4px;">
+                                        </div>
+                                        <div class="builder-stack-pill" id="card-stack">your role</div>
+                                    </div>
+                                </div>
+                                <div class="tags"
+                                    style="background:#fffbe8;border:4px solid #0b6839;border-radius:16px;padding:0;overflow:hidden;line-height:1.4;width:340px;font-family:'Victor Mono',monospace;font-weight:700;">
+                                    <div
+                                        style="background:#0b6839;padding:10px 20px;text-align:center;letter-spacing:4px;font-size:22px;color:#fee101;">
+                                        HACKER HOUSE GOA</div>
+                                    <div
+                                        style="padding:14px 20px 12px;border-bottom:2px dashed #0b6839;text-align:left;">
+                                        <span style="color:#ff0080;font-size:30px;">⌬</span>
+                                        <span style="color:#0b6839;font-size:22px;letter-spacing:3px;"> BUILDER
+                                            ID</span>
+                                    </div>
+                                    <div style="padding:12px 20px 4px;font-size:24px;letter-spacing:1.5px;">
+                                        <span id="card-id-value"
+                                            style="color:#ff0080;white-space:nowrap;">BLD-GOA26-XX-XXXX</span>
+                                    </div>
+                                    <div
+                                        style="background:#0b6839;margin-top:12px;padding:8px 20px;text-align:center;font-size:16px;letter-spacing:4px;color:#fee101;">
+                                        28–31 OCT 2026</div>
+                                </div>
+                            </div>
+                            <div
+                                style="font-family:'Victor Mono',monospace;font-size:22px;font-weight:700;color:#0b6839;letter-spacing:2px;opacity:0.7;">
+                                FROM: INTERNET → TO: GOA</div>
+                            <div class="badge-motto">BUILD · SHIP · LAUNCH · REPEAT</div>
+                        </div>
+
+                    </div> <!-- closes id-card -->
+
+                    <!-- ── CARD BACK ── -->
+                    <div id="card-back">
                         <div
-                            style="font-family:'Victor Mono',monospace;font-size:22px;font-weight:700;color:#0b6839;letter-spacing:2px;opacity:0.7;">
-                            FROM: INTERNET → TO: GOA</div>
-                        <div class="badge-motto">BUILD · SHIP · LAUNCH · REPEAT</div>
-                    </div>
+                            style="position:absolute;inset:12px;border:3px dashed rgba(254,225,1,0.25);border-radius:16px;pointer-events:none;z-index:20;">
+                        </div>
+                        <div class="lanyard-hole"></div>
 
-                </div> <!-- closes id-card -->
+                        <div
+                            style="width:100%;height:180px;background:#0b6839;display:flex;align-items:center;justify-content:space-between;padding:12px 50px 0;flex-shrink:0;">
+                            <img src="logo.png" alt="Hacker House Goa" style="height:90px;width:auto;">
+                            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;">
+                                <div
+                                    style="background:#ff0080;color:#fff;padding:8px 18px;border-radius:99px;font-family:'Victor Mono',monospace;font-size:18px;font-weight:700;letter-spacing:0.1em;">
+                                    BOARDING: BUILDER</div>
+                                <div
+                                    style="font-family:'Victor Mono',monospace;font-size:28px;font-weight:700;color:#fffbe8;letter-spacing:0.1em;">
+                                    GOA, INDIA · 28-31 OCT 2026</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;gap:30px;padding:36px 50px 24px;justify-content:center;">
+                            <div style="display:flex;flex-direction:column;align-items:center;gap:12px;flex:1;">
+                                <div
+                                    style="background:#fffbe8;border:5px solid #fee101;border-radius:12px;padding:14px;">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://hacker-house-id-card-generator-flax.vercel.app/"
+                                        width="300" height="300" style="display:block;">
+                                </div>
+                                <div
+                                    style="font-family:'Victor Mono',monospace;font-size:20px;font-weight:700;color:#fee101;letter-spacing:2px;text-align:center;">
+                                    GET YOUR CARD</div>
+                            </div>
+                            <div style="display:flex;flex-direction:column;align-items:center;gap:12px;flex:1;">
+                                <div
+                                    style="background:#fffbe8;border:5px solid #fee101;border-radius:12px;padding:14px;">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://hhgoa.com/"
+                                        width="300" height="300" style="display:block;">
+                                </div>
+                                <div
+                                    style="font-family:'Victor Mono',monospace;font-size:20px;font-weight:700;color:#fee101;letter-spacing:2px;text-align:center;">
+                                    OFFICIAL SITE</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;align-items:center;gap:16px;padding:0 50px;margin-bottom:32px;">
+                            <div
+                                style="flex:1;height:2px;background:linear-gradient(to right,transparent,rgba(254,225,1,0.4));">
+                            </div>
+                            <div
+                                style="font-family:'Victor Mono',monospace;font-size:16px;font-weight:700;color:rgba(254,225,1,0.6);letter-spacing:6px;white-space:nowrap;">
+                                ✦ HH GOA 2026 ✦</div>
+                            <div
+                                style="flex:1;height:2px;background:linear-gradient(to left,transparent,rgba(254,225,1,0.4));">
+                            </div>
+                        </div>
+
+                        <div style="padding:0 50px 36px;display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+                            <div>
+                                <div
+                                    style="font-family:'Victor Mono',monospace;font-size:15px;font-weight:700;color:#ffffff;letter-spacing:4px;margin-bottom:6px;">
+                                    OPERATIVE ID</div>
+                                <div id="back-id"
+                                    style="font-family:'Victor Mono',monospace;font-size:28px;font-weight:700;color:#fee101;line-height:1.2;">
+                                    BLD-GOA26-XX-XXXX</div>
+                            </div>
+                            <div>
+                                <div
+                                    style="font-family:'Victor Mono',monospace;font-size:15px;font-weight:700;color:#ffffff;letter-spacing:4px;margin-bottom:6px;">
+                                    CLEARANCE</div>
+                                <div id="back-clearance"
+                                    style="font-family:'Imbue',serif;font-size:36px;font-weight:900;color:#fee101;">
+                                    LEVEL 3</div>
+                            </div>
+                            <div>
+                                <div
+                                    style="font-family:'Victor Mono',monospace;font-size:15px;font-weight:700;color:#ffffff;letter-spacing:4px;margin-bottom:6px;">
+                                    CODENAME</div>
+                                <div id="back-name"
+                                    style="font-family:'Imbue',serif;font-size:48px;font-weight:900;color:#fee101;line-height:1;">
+                                    ANON BUILDER</div>
+                            </div>
+                            <div>
+                                <div
+                                    style="font-family:'Victor Mono',monospace;font-size:15px;font-weight:700;color:#ffffff;letter-spacing:4px;margin-bottom:6px;">
+                                    SPECIALISATION</div>
+                                <div id="back-role"
+                                    style="font-family:'Victor Mono',monospace;font-size:32px;font-weight:700;color:#fee101;">
+                                    UNKNOWN</div>
+                            </div>
+                        </div>
+
+                        <div style="padding:0 50px 200px;">
+                            <div
+                                style="font-family:'Victor Mono',monospace;font-size:15px;font-weight:700;color:#ffffff;letter-spacing:4px;margin-bottom:16px;">
+                                MISSION OBJECTIVES</div>
+                            <div
+                                style="display:flex;flex-direction:column;border:2px solid rgba(254,225,1,0.25);border-radius:12px;overflow:hidden;">
+                                <div style="display:flex;gap:24px;align-items:center;padding:20px 28px;">
+                                    <div
+                                        style="font-family:'Victor Mono',monospace;font-size:16px;font-weight:700;color:#fee101;letter-spacing:3px;flex-shrink:0;">
+                                        MISSION 1</div>
+                                    <div id="back-mission-1"
+                                        style="font-family:'Victor Mono',monospace;font-size:22px;font-weight:700;color:#fffbe8;line-height:1.4;">
+                                    </div>
+                                </div>
+                                <div style="height:1px;background:rgba(254,225,1,0.15);margin:0 28px;"></div>
+                                <div style="display:flex;gap:24px;align-items:center;padding:20px 28px;">
+                                    <div
+                                        style="font-family:'Victor Mono',monospace;font-size:16px;font-weight:700;color:#fee101;letter-spacing:3px;flex-shrink:0;">
+                                        MISSION 2</div>
+                                    <div id="back-mission-2"
+                                        style="font-family:'Victor Mono',monospace;font-size:22px;font-weight:700;color:#fffbe8;line-height:1.4;">
+                                    </div>
+                                </div>
+                                <div style="height:1px;background:rgba(254,225,1,0.15);margin:0 28px;"></div>
+                                <div style="display:flex;gap:24px;align-items:center;padding:20px 28px;">
+                                    <div
+                                        style="font-family:'Victor Mono',monospace;font-size:16px;font-weight:700;color:#fee101;letter-spacing:3px;flex-shrink:0;">
+                                        MISSION 3</div>
+                                    <div id="back-mission-3"
+                                        style="font-family:'Victor Mono',monospace;font-size:22px;font-weight:700;color:#fffbe8;line-height:1.4;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="position:absolute;bottom:110px;left:0;right:0;height:80px;background:#ff0080;display:flex;align-items:center;justify-content:center;gap:24px;">
+                            <div
+                                style="font-family:'Victor Mono',monospace;font-size:22px;font-weight:700;color:#fff;letter-spacing:4px;">
+                                VERIFIED BUILDER</div>
+                            <div style="width:3px;height:28px;background:rgba(255,255,255,0.4);border-radius:2px;">
+                            </div>
+                            <div
+                                style="font-family:'Victor Mono',monospace;font-size:22px;font-weight:700;color:#fff;letter-spacing:4px;">
+                                AUTHORISED TO BUILD IN GOA</div>
+                        </div>
+
+                        <div
+                            style="position:absolute;bottom:0;left:0;right:0;height:110px;background:#fee101;display:flex;align-items:center;justify-content:center;gap:20px;">
+                            <div style="font-size:48px;line-height:1;">⚠</div>
+                            <div
+                                style="font-family:'Victor Mono',monospace;font-size:24px;font-weight:700;color:#0b6839;letter-spacing:4px;">
+                                DESTROY AFTER 31 OCT 2026</div>
+                            <div style="font-size:48px;line-height:1;">⚠</div>
+                        </div>
+
+                    </div> <!-- closes card-back -->
+                </div> <!-- closes card-inner -->
             </div> <!-- closes card-wrapper -->
 
             <div class="card-actions">
@@ -762,21 +1086,45 @@
     </div> <!-- closes card-screen -->
 
     <div id="share-toast">🖼 Check downloads · drag & drop into tweet</div>
-    <!-- ── PHOTO EDITOR POPUP ── -->
+
+    <!-- ── CARD HINT POPUP ── -->
+    <div id="card-hint">
+        <div class="hint-header">
+            <div class="hint-header-left">
+                <div class="hint-eyebrow">Builder Briefing</div>
+                <div class="hint-title">YOUR CARD AWAITS</div>
+            </div>
+            <div class="hint-boarding">INTERACTIVE</div>
+        </div>
+        <div class="hint-body">
+            <div class="hint-row">
+                <div class="hint-tag">INPUT 01</div>
+                <div class="hint-content">
+                    <div class="hint-action">HOVER → TILT</div>
+                    <div class="hint-sub">drag your cursor across the card — it bends to your will</div>
+                </div>
+            </div>
+            <div class="hint-row">
+                <div class="hint-tag">INPUT 02</div>
+                <div class="hint-content">
+                    <div class="hint-action">CLICK → FLIP</div>
+                    <div class="hint-sub">tap anywhere on the card to flip it and see the back</div>
+                </div>
+            </div>
+        </div>
+        <div class="hint-footer">
+            <button id="hint-dismiss">UNDERSTOOD · DEPLOY CARD ⌬</button>
+        </div>
+    </div>
+
     <!-- ── PHOTO EDITOR POPUP ── -->
     <div id="photo-editor"
         style="display:none;position:fixed;inset:0;z-index:9000;align-items:center;justify-content:center;flex-direction:column;">
-
-        <!-- backdrop -->
         <div
             style="position:absolute;inset:0;background:rgba(27,77,27,0.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
         </div>
-
-        <!-- panel -->
         <div
             style="position:relative;z-index:1;width:min(460px,92vw);display:flex;flex-direction:column;border-radius:16px;overflow:hidden;border:2px solid #fee101;box-shadow:0 0 40px rgba(254,225,1,0.15),0 32px 80px rgba(0,0,0,0.8);">
-
-            <!-- top bar -->
             <div
                 style="background:#0b6839;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
                 <div>
@@ -790,19 +1138,15 @@
                 <button id="editor-cancel"
                     style="width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.3);border:1.5px solid rgba(254,225,1,0.4);color:#fee101;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
             </div>
-
-            <!-- canvas zone -->
             <div id="canvas-zone"
                 style="background:#0b6839;position:relative;width:100%;border-radius:12px;overflow:hidden;margin:10px auto;">
                 <div
                     style="position:absolute;inset:0;border:3px solid #fee101;border-radius:12px;z-index:3;pointer-events:none;overflow:hidden;">
-                </div> <canvas id="editor-canvas" style="display:block;"></canvas>
+                </div>
+                <canvas id="editor-canvas" style="display:block;"></canvas>
             </div>
-
-            <!-- controls -->
             <div
                 style="background:#0b6839;padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;border-top:2px solid rgba(254,225,1,0.3);">
-
                 <div style="display:grid;grid-template-columns:56px 1fr 40px;align-items:center;gap:10px;">
                     <span
                         style="font-family:'Victor Mono',monospace;font-size:10px;font-weight:700;color:rgba(254,225,1,0.6);letter-spacing:3px;">ZOOM</span>
@@ -811,7 +1155,6 @@
                     <span id="zoom-val"
                         style="font-family:'Victor Mono',monospace;font-size:11px;color:#fee101;text-align:right;font-weight:700;">1.0×</span>
                 </div>
-
                 <div style="display:grid;grid-template-columns:56px 1fr 40px;align-items:center;gap:10px;">
                     <span
                         style="font-family:'Victor Mono',monospace;font-size:10px;font-weight:700;color:rgba(254,225,1,0.6);letter-spacing:3px;">ROTATE</span>
@@ -820,7 +1163,6 @@
                     <span id="rotate-val"
                         style="font-family:'Victor Mono',monospace;font-size:11px;color:#fee101;text-align:right;font-weight:700;">0°</span>
                 </div>
-
                 <div style="display:flex;gap:8px;">
                     <button id="editor-flip-h"
                         style="flex:1;height:38px;background:rgba(254,225,1,0.12);color:#fee101;border:1.5px solid rgba(254,225,1,0.4);border-radius:8px;font-family:'Victor Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;">⇔
@@ -832,15 +1174,12 @@
                         style="flex:1;height:38px;background:rgba(255,0,128,0.15);color:#ff0080;border:1.5px solid rgba(255,0,128,0.5);border-radius:8px;font-family:'Victor Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;">⟳
                         RESET</button>
                 </div>
-
                 <button id="editor-confirm"
                     style="width:100%;height:50px;background:#fee101;color:#0b6839;border:none;border-radius:10px;font-family:'Imbue',serif;font-size:20px;font-weight:900;letter-spacing:2px;cursor:pointer;">LOCK
                     IN PHOTO →</button>
-
             </div>
         </div>
     </div>
-
 
     <script>
         /* ── loader ── */
@@ -854,7 +1193,7 @@
         sceneImg.addEventListener('load', hideLoader);
         sceneImg.addEventListener('error', hideLoader);
         if (sceneImg.complete) hideLoader();
-        /* ── PHOTO EDITOR ── */
+
         /* ── PHOTO EDITOR ── */
         const editorCanvas = document.getElementById('editor-canvas');
         const editorCtx = editorCanvas.getContext('2d');
@@ -865,16 +1204,12 @@
 
         let editorImg = null;
         let editorState = { zoom: 1, rotate: 0, flipH: false, flipV: false };
+
         function renderEditor() {
             const size = editorCanvas.width;
             if (!size || !editorImg) return;
-
-            // background
-            // yellow background
             editorCtx.fillStyle = '#fee101';
             editorCtx.fillRect(0, 0, size, size);
-
-            // green wavy lines
             editorCtx.save();
             editorCtx.strokeStyle = 'rgba(11,104,57,0.5)';
             editorCtx.lineWidth = 2.5;
@@ -888,8 +1223,6 @@
                 editorCtx.stroke();
             }
             editorCtx.restore();
-
-            // image
             editorCtx.save();
             editorCtx.translate(size / 2, size / 2);
             editorCtx.rotate(editorState.rotate * Math.PI / 180);
@@ -931,36 +1264,20 @@
             zoomVal.textContent = editorState.zoom.toFixed(1) + '×';
             renderEditor();
         });
-
         editorRotate.addEventListener('input', () => {
             editorState.rotate = parseFloat(editorRotate.value);
             rotateVal.textContent = editorState.rotate + '°';
             renderEditor();
         });
-
-        document.getElementById('editor-flip-h').addEventListener('click', () => {
-            editorState.flipH = !editorState.flipH;
-            renderEditor();
-        });
-
-        document.getElementById('editor-flip-v').addEventListener('click', () => {
-            editorState.flipV = !editorState.flipV;
-            renderEditor();
-        });
-
+        document.getElementById('editor-flip-h').addEventListener('click', () => { editorState.flipH = !editorState.flipH; renderEditor(); });
+        document.getElementById('editor-flip-v').addEventListener('click', () => { editorState.flipV = !editorState.flipV; renderEditor(); });
         document.getElementById('editor-reset').addEventListener('click', () => {
             editorState = { zoom: 1, rotate: 0, flipH: false, flipV: false };
-            editorZoom.value = 1;
-            editorRotate.value = 0;
-            zoomVal.textContent = '1.0×';
-            rotateVal.textContent = '0°';
+            editorZoom.value = 1; editorRotate.value = 0;
+            zoomVal.textContent = '1.0×'; rotateVal.textContent = '0°';
             renderEditor();
         });
-
-        document.getElementById('editor-cancel').addEventListener('click', () => {
-            photoEditor.style.display = 'none';
-        });
-
+        document.getElementById('editor-cancel').addEventListener('click', () => { photoEditor.style.display = 'none'; });
         document.getElementById('editor-confirm').addEventListener('click', () => {
             photoSrc = editorCanvas.toDataURL('image/png');
             laptopPreview.src = photoSrc;
@@ -968,15 +1285,12 @@
             laptopPreview.classList.add('visible');
             laptopPreview.style.cssText = 'display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:5';
             photoEditor.style.display = 'none';
-            // show the table text toast
             const tableText = document.querySelector('.table-text');
             tableText.style.opacity = '1';
             tableText.style.pointerEvents = 'auto';
-            setTimeout(() => {
-                tableText.style.opacity = '0';
-                tableText.style.pointerEvents = 'none';
-            }, 3000);
+            setTimeout(() => { tableText.style.opacity = '0'; tableText.style.pointerEvents = 'none'; }, 3000);
         });
+
         /* ── roasts ── */
         const roasts = {
             design: ["Makes buttons pretty, calls it shipping", "Pixel pusher with trust issues", "Canva open, Figma crashing, vibes immaculate"],
@@ -1003,7 +1317,8 @@
 
         /* ── refs ── */
         let photoSrc = null;
-        let cachedCanvas = null;
+        let cachedFront = null;
+        let cachedBack = null;
         const photoInput = document.getElementById('photo-input');
         const laptopZone = document.getElementById('laptop-zone');
         const laptopPreview = document.getElementById('laptop-preview');
@@ -1018,16 +1333,18 @@
         const cardStack = document.getElementById('card-stack');
         const cardRoast = document.getElementById('card-roast');
         const idCard = document.getElementById('id-card');
+        const cardBack = document.getElementById('card-back');
         const cardWrapper = document.getElementById('card-wrapper');
         const cardColumn = document.getElementById('card-column');
         const btnDownload = document.getElementById('btn-download');
         const btnShare = document.getElementById('btn-share');
         const backBtn = document.getElementById('back-btn');
         const photoEditor = document.getElementById('photo-editor');
+        const shine = document.getElementById('card-shine');
+        const cardInner = document.getElementById('card-inner');
 
         /* ── photo upload ── */
         laptopZone.addEventListener('click', () => photoInput.click());
-
         photoInput.addEventListener('change', e => {
             const file = e.target.files[0];
             if (!file) return;
@@ -1036,47 +1353,137 @@
             reader.readAsDataURL(file);
         });
 
-        /* ── scaleCard ──
-           Sets card transform scale so the 1080-wide card fits the viewport,
-           then sets card-column width = rendered card width so buttons match exactly.
-        */
+        /* ── scaleCard ── */
         function scaleCard() {
             const vw = window.innerWidth;
             const vh = window.innerHeight;
-            const availW = vw - 16;          // 8px breathing room each side
-            const availH = vh - 140;         // back-bar + buttons + safe area
+            const availW = vw - 16;
+            const availH = vh - 140;
             const scale = Math.min(availW / 1080, availH / 1350, 1);
             const cardW = Math.floor(1080 * scale);
             const cardH = Math.floor(1350 * scale);
 
-            // Scale the card in-place (top-left origin so wrapper clips correctly)
-            idCard.style.transform = `scale(${scale})`;
-            idCard.style.transformOrigin = 'top left';
-
-            // Wrapper = exact rendered size so nothing overflows
             cardWrapper.style.width = cardW + 'px';
             cardWrapper.style.height = cardH + 'px';
-
-            // Column = same width → buttons stretch to match
             cardColumn.style.width = cardW + 'px';
             cardWrapper._scale = scale;
+
+            const flipY = isFlipped ? 180 : 0;
+            cardInner.style.transformOrigin = 'top left';
+            cardInner.style.transform = `scale(${scale}) translateX(540px) rotateY(${flipY}deg) translateX(-540px)`;
+            idCard.style.transform = 'none';
         }
 
-        window.addEventListener('resize', () => {
-            if (cardScreen.classList.contains('visible')) scaleCard();
-        });
-        window.addEventListener('orientationchange', () => {
-            setTimeout(() => {
-                if (cardScreen.classList.contains('visible')) scaleCard();
-            }, 300);
-        });
+        window.addEventListener('resize', () => { if (cardScreen.classList.contains('visible')) scaleCard(); });
+        window.addEventListener('orientationchange', () => { setTimeout(() => { if (cardScreen.classList.contains('visible')) scaleCard(); }, 300); });
         if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', () => {
-                if (cardScreen.classList.contains('visible')) scaleCard();
+            window.visualViewport.addEventListener('resize', () => { if (cardScreen.classList.contains('visible')) scaleCard(); });
+        }
+
+        /* ── CAPTURE: clone face into off-screen host, no transforms ── */
+        async function captureFace(sourceEl, bgColor) {
+            const host = document.createElement('div');
+            host.style.cssText = 'position:fixed;left:-9999px;top:0;width:1080px;height:1350px;overflow:hidden;z-index:-1;pointer-events:none;';
+            document.body.appendChild(host);
+
+            const clone = sourceEl.cloneNode(true);
+            clone.style.cssText = 'width:1080px;height:1350px;transform:none!important;transform-origin:top left;position:relative;border-radius:24px;overflow:hidden;backface-visibility:visible;-webkit-backface-visibility:visible;';
+            host.appendChild(clone);
+
+            // Let fonts/images settle
+            await new Promise(r => setTimeout(r, 250));
+
+            try {
+                return await html2canvas(clone, {
+                    width: 1080,
+                    height: 1350,
+                    scale: 1,
+                    backgroundColor: bgColor || null,
+                    useCORS: true,
+                    allowTaint: true,
+                    imageTimeout: 0,
+                    logging: false,
+                });
+            } finally {
+                document.body.removeChild(host);
+            }
+        }
+
+        /* ── stitch front + back side by side ── */
+        function stitchCanvases(front, back) {
+            const gap = 40;
+            const out = document.createElement('canvas');
+            out.width = front.width * 2 + gap;
+            out.height = front.height;
+            const ctx = out.getContext('2d');
+            // gap background — dark green matching the page bg
+            ctx.fillStyle = '#1b4d1b';
+            ctx.fillRect(0, 0, out.width, out.height);
+            ctx.drawImage(front, 0, 0);
+            ctx.drawImage(back, front.width + gap, 0);
+            return out;
+        }
+
+        function triggerDownload(canvas, filename) {
+            return new Promise(resolve => {
+                const a = document.createElement('a');
+                a.download = filename;
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+                // Small delay so browser registers two separate downloads
+                setTimeout(resolve, 400);
             });
         }
 
+        /* ── warm up cache after card appears ── */
+        async function warmCache() {
+            cachedFront = null;
+            cachedBack = null;
+            // slight delay so card is fully painted
+            await new Promise(r => setTimeout(r, 500));
+            try {
+                cachedFront = await captureFace(idCard, '#FFFBE8');
+                cachedBack = await captureFace(cardBack, '#0b6839');
+            } catch (e) {
+                // silent — will re-capture on demand
+            }
+        }
+
         /* ── door → generate card ── */
+        const missions = {
+            design: ["Make it pixel-perfect. Then make it ship.", "Your Figma file is not a product. Close it.", "One component. One screen. One working demo."],
+            dev: ["Deploy something real before day two.", "No lorem ipsum. Real data only.", "If it's not on a URL, it doesn't exist."],
+            ai: ["Wrap the model. Build the interface. Ship it.", "Prompts are not a product. Add a layer.", "Demo must run live. No pre-recorded video."],
+            web3: ["Ship on-chain. Blame the RPC when it breaks.", "Gas fees are not an excuse. Figure it out.", "One working transaction. That's the MVP."],
+            founder: ["Talk to three users before writing a line of code.", "Pivot is allowed. Quitting is not.", "Deck stays closed. Product stays open."],
+            fullstack: ["Own the full stack. No handoffs.", "DB, API, UI — all wired before sleep.", "If it breaks in prod, you fix it in prod."],
+            fallback: ["Show up. That's step one.", "Build something. Anything. Just ship it.", "No excuses. Goa doesn't care. Ship anyway."]
+        };
+        const clearanceLevels = { design: "LEVEL 3", dev: "LEVEL 4", ai: "LEVEL 5", web3: "LEVEL 3", founder: "LEVEL 4", fullstack: "LEVEL 4", fallback: "LEVEL 2" };
+
+        function getMissionCat(stack) {
+            const s = stack.toLowerCase();
+            if (/design|figma|ui|ux|product|creative|brand/i.test(s)) return 'design';
+            if (/dev|engineer|code|react|node|python|backend|frontend|infra|aws|django|rails|golang|vue|svelte/i.test(s)) return 'dev';
+            if (/\bai\b|llm|gpt|\bml\b|machine.learning|openai|claude|data/i.test(s)) return 'ai';
+            if (/solana|\beth\b|web3|onchain|crypto|defi|nft|blockchain/i.test(s)) return 'web3';
+            if (/founder|ceo|cto|build|startup|venture/i.test(s)) return 'founder';
+            if (/fullstack|full.stack/i.test(s)) return 'fullstack';
+            return 'fallback';
+        }
+
+        function generateId(name) {
+            const clean = name.trim().toUpperCase().replace(/[^A-Z0-9 ]/g, '');
+            const parts = clean.split(/\s+/).filter(Boolean);
+            let initials = parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : (clean + 'XX').slice(0, 2);
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let seed = 0;
+            for (let i = 0; i < clean.length; i++) seed = (seed * 31 + clean.charCodeAt(i)) >>> 0;
+            let suffix = '';
+            for (let i = 0; i < 4; i++) { seed = (seed * 1664525 + 1013904223) >>> 0; suffix += chars[seed % chars.length]; }
+            return `BLD-GOA26-${initials}-${suffix}`;
+        }
+
         doorBtn.addEventListener('click', () => {
             if (!photoSrc) {
                 laptopZone.style.outline = '2px solid #fee101';
@@ -1087,88 +1494,61 @@
             const name = (nameInput.value.trim() || 'ANON BUILDER').toUpperCase();
             const stack = stackInput.value.trim() || 'building in goa';
             const roast = getRoast(stack);
+            const cat = getMissionCat(stack);
+            const id = generateId(name);
+
             cardPhoto.src = photoSrc;
             cardName.textContent = 'NAME: ' + name;
             cardStack.textContent = 'ROLE: ' + stack.split(/[\s,]+/).filter(Boolean).join(' · ');
-            const cardIdValue = document.getElementById('card-id-value');
             cardRoast.textContent = `"${roast}"`;
-            cardIdValue.textContent = generateId(name);
+            document.getElementById('card-id-value').textContent = id;
+            document.getElementById('back-id').textContent = id;
+            document.getElementById('back-name').textContent = name;
+            document.getElementById('back-role').textContent = stack.toUpperCase();
+            document.getElementById('back-mission-1').textContent = missions[cat][0];
+            document.getElementById('back-mission-2').textContent = missions[cat][1];
+            document.getElementById('back-mission-3').textContent = missions[cat][2];
+            document.getElementById('back-clearance').textContent = clearanceLevels[cat];
+
             formScreen.style.display = 'none';
             cardScreen.classList.add('visible');
             window.scrollTo(0, 0);
             scaleCard();
-            // Pre-render in background after card is shown
-            cachedCanvas = null;
-            setTimeout(async () => {
-                cachedCanvas = await captureCard();
-            }, 400);
+
+            // Warm cache in background
+            warmCache();
+
+            // Show hint once per session
+            if (!sessionStorage.getItem('hintSeen')) {
+                setTimeout(() => {
+                    document.getElementById('card-hint').classList.add('show');
+                }, 600);
+            }
         });
 
         backBtn.addEventListener('click', () => {
             cardScreen.classList.remove('visible');
             formScreen.style.display = 'flex';
+            cachedFront = null;
+            cachedBack = null;
         });
 
-        /* ── capture helper ── */
-        async function captureCard() {
-            const origTransform = idCard.style.transform;
-            const origOrigin = idCard.style.transformOrigin;
-            const origWrapW = cardWrapper.style.width;
-            const origWrapH = cardWrapper.style.height;
-            const origColW = cardColumn.style.width;
-
-            shine.style.display = 'none';
-            cardColumn.style.opacity = '0';
-            cardColumn.style.pointerEvents = 'none';
-
-            idCard.style.transform = 'none';
-            idCard.style.transformOrigin = 'top left';
-            cardWrapper.style.width = '1080px';
-            cardWrapper.style.height = '1350px';
-            cardColumn.style.width = '1080px';
-
-            await new Promise(r => setTimeout(r, 200));
-
-            try {
-                return await html2canvas(idCard, {
-                    width: 1080, height: 1350, scale: 1,
-                    backgroundColor: '#FFFBE8',
-                    useCORS: true, allowTaint: true,
-                    imageTimeout: 0, logging: false,
-                    onclone: doc => {
-                        const c = doc.getElementById('id-card');
-                        c.style.transform = 'none';
-                        c.style.borderRadius = '24px';
-                        c.style.overflow = 'hidden';
-                    }
-                });
-            } finally {
-                shine.style.display = '';
-                idCard.style.transform = origTransform;
-                idCard.style.transformOrigin = origOrigin;
-                cardWrapper.style.width = origWrapW;
-                cardWrapper.style.height = origWrapH;
-                cardColumn.style.width = origColW;
-                cardColumn.style.opacity = '1';
-                cardColumn.style.pointerEvents = '';
-                scaleCard();
-            }
-        }
-        function showToast() {
-            const toast = document.getElementById('share-toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
+        /* ── DOWNLOAD: front-only + side-by-side ── */
         btnDownload.addEventListener('click', async () => {
             btnDownload.textContent = 'Capturing...';
             btnDownload.disabled = true;
             try {
-                const canvas = cachedCanvas || await captureCard();
-                const a = document.createElement('a');
-                a.download = 'hh-goa-2026-card.png';
-                a.href = canvas.toDataURL('image/png');
-                a.click();
+                // Use cache or capture fresh
+                const front = cachedFront || await captureFace(idCard, '#FFFBE8');
+                const back = cachedBack || await captureFace(cardBack, '#0b6839');
+                cachedFront = front;
+                cachedBack = back;
+
+                const both = stitchCanvases(front, back);
+
+                // Download front-only first, then both sides
+                await triggerDownload(front, 'hh-goa-2026-front.png');
+                await triggerDownload(both, 'hh-goa-2026-both-sides.png');
             } catch (err) {
                 alert('Download failed: ' + err.message);
             } finally {
@@ -1177,19 +1557,30 @@
             }
         });
 
+        /* ── SHARE: stitch + tweet ── */
+        function showToast() {
+            const toast = document.getElementById('share-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
         btnShare.addEventListener('click', async () => {
             btnShare.textContent = 'Preparing...';
             btnShare.disabled = true;
             showToast();
             try {
-                const canvas = cachedCanvas || await captureCard();
+                const front = cachedFront || await captureFace(idCard, '#FFFBE8');
+                const back = cachedBack || await captureFace(cardBack, '#0b6839');
+                cachedFront = front;
+                cachedBack = back;
+
+                const both = stitchCanvases(front, back);
                 const tweetText = 'First step toward Hacker House Goa 2026 🌴  Built my Builder ID card—claim yours too and join the challenge.\n\nTry it out 👉 https://hacker-house-id-card-generator-flax.vercel.app/\n\n#FrameInGoa #HHGOA2026 @247pmstudio ';
-                await new Promise(r => setTimeout(r, 2000));
+
+                // Download front then both-sides, then open tweet
+                await triggerDownload(front, 'hh-goa-2026-front.png');
+                await triggerDownload(both, 'hh-goa-2026-both-sides.png');
                 window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
-                const a = document.createElement('a');
-                a.download = 'hh-goa-2026-card.png';
-                a.href = canvas.toDataURL('image/png');
-                a.click();
             } catch (err) {
                 alert('Share failed: ' + err.message);
             } finally {
@@ -1197,72 +1588,57 @@
                 btnShare.disabled = false;
             }
         });
+
         /* ── Tilt + Shine ── */
-        const shine = document.getElementById('card-shine');
-        const tiltCard = idCard;
+        let isFlipped = false;
+
+        cardWrapper.addEventListener('click', () => {
+            isFlipped = !isFlipped;
+            const scale = cardWrapper._scale || 1;
+            const flipY = isFlipped ? 180 : 0;
+            cardInner.style.transition = 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+            cardInner.style.transformOrigin = 'top left';
+            cardInner.style.transform = `scale(${scale}) translateX(540px) rotateY(${flipY}deg) translateX(-540px)`;
+            setTimeout(() => { cardInner.style.transition = ''; }, 750);
+        });
 
         function applyTilt(x, y, rect) {
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
             const dx = (x - cx) / (rect.width / 2);
             const dy = (y - cy) / (rect.height / 2);
-            const rotateX = -dy * 10;
-            const rotateY = dx * 10;
             const scale = cardWrapper._scale || 1;
-            const cardW = 1080 * scale;
-            const cardH = 1350 * scale;
-            const offsetX = (rect.width - cardW) / 2;
-            const offsetY = (rect.height - cardH) / 2;
-            tiltCard.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px) scale(${scale}) translateX(${-offsetX / scale}px) translateY(${-offsetY / scale}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${offsetX / scale}px) translateY(${offsetY / scale}px)`;
+            const flipY = isFlipped ? 180 : 0;
+            cardInner.style.transition = 'transform 0.1s ease-out';
+            cardInner.style.transformOrigin = 'top left';
+            cardInner.style.transform = `scale(${scale}) translateX(540px) rotateX(${-dy * 8}deg) rotateY(${flipY + dx * 8}deg) translateX(-540px)`;
             shine.style.opacity = '1';
-            shine.style.background = `radial-gradient(circle at ${(dx + 1) / 2 * 100}% ${(dy + 1) / 2 * 100}%,
-                rgba(255,255,255,0.45) 0%,
-                rgba(255,255,255,0.1) 40%,
-                transparent 70%)`;
+            shine.style.background = `radial-gradient(circle at ${(dx + 1) / 2 * 100}% ${(dy + 1) / 2 * 100}%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.1) 40%, transparent 70%)`;
         }
+
         function resetTilt() {
-            tiltCard.style.transform = `scale(${cardWrapper._scale || 1})`;
-            tiltCard.style.transformOrigin = 'top left';
-            tiltCard.style.transition = 'transform 0.4s ease-out';
+            const scale = cardWrapper._scale || 1;
+            const flipY = isFlipped ? 180 : 0;
+            cardInner.style.transition = 'transform 0.4s ease-out';
+            cardInner.style.transformOrigin = 'top left';
+            cardInner.style.transform = `scale(${scale}) translateX(540px) rotateY(${flipY}deg) translateX(-540px)`;
             shine.style.opacity = '0';
-            setTimeout(() => { tiltCard.style.transition = 'transform 0.1s ease-out'; }, 400);
+            setTimeout(() => { cardInner.style.transition = ''; }, 400);
         }
 
-        // Mouse
-        cardWrapper.addEventListener('mousemove', e => {
-            const rect = cardWrapper.getBoundingClientRect();
-            applyTilt(e.clientX, e.clientY, rect);
+        document.getElementById('hint-dismiss').addEventListener('click', () => {
+            const hint = document.getElementById('card-hint');
+            hint.classList.remove('show');
+            sessionStorage.setItem('hintSeen', '1');
         });
-        cardWrapper.addEventListener('mouseleave', resetTilt);
 
-        // Touch
-        // Touch — tilt only on non-mobile
+        cardWrapper.addEventListener('mousemove', e => { applyTilt(e.clientX, e.clientY, cardWrapper.getBoundingClientRect()); });
+        cardWrapper.addEventListener('mouseleave', resetTilt);
         if (window.matchMedia('(hover: hover)').matches) {
-            cardWrapper.addEventListener('touchmove', e => {
-                const rect = cardWrapper.getBoundingClientRect();
-                const t = e.touches[0];
-                applyTilt(t.clientX, t.clientY, rect);
-            }, { passive: true });
+            cardWrapper.addEventListener('touchmove', e => { applyTilt(e.touches[0].clientX, e.touches[0].clientY, cardWrapper.getBoundingClientRect()); }, { passive: true });
             cardWrapper.addEventListener('touchend', resetTilt);
         }
-        function generateId(name) {
-            const clean = name.trim().toUpperCase().replace(/[^A-Z0-9 ]/g, '');
-            const parts = clean.split(/\s+/).filter(Boolean);
-            let initials = parts.length >= 2
-                ? parts[0][0] + parts[parts.length - 1][0]
-                : (clean + 'XX').slice(0, 2);
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let seed = 0;
-            for (let i = 0; i < clean.length; i++) seed = (seed * 31 + clean.charCodeAt(i)) >>> 0;
-            let suffix = '';
-            for (let i = 0; i < 4; i++) {
-                seed = (seed * 1664525 + 1013904223) >>> 0;
-                suffix += chars[seed % chars.length];
-            }
-            return `BLD-GOA26-${initials}-${suffix}`;
-        }
     </script>
-
 </body>
 
 </html>
